@@ -66,7 +66,7 @@ docker exec -it dl_dev_cuda11.8 bash
 docker compose -f my-dev-env/docker/docker-compose.yml up -d dl-dev-cuda11.8-cudnn8-pytorch1.13.1-ubuntu22.04
 
 # 进入容器
-docker exec -it dl_dev_cuda11.8 bash
+docker exec -it dl_dev_cuda11.8 /bin/bash
 ```
 
 #### 2.2.2 使用父项目自定义配置（推荐）
@@ -77,17 +77,19 @@ docker exec -it dl_dev_cuda11.8 bash
 services:
   dl-dev-cuda11.8-cudnn8-pytorch1.13.1-ubuntu22.04:
     volumes:
-      - ./samples:/workspace/samples
+      - ${PROJECT_ROOT}/samples:/workspace/samples
     working_dir: /workspace/samples
 ```
 
-然后组合使用两个 `docker-compose.yml`：
+在父项目根目录创建 `docker-compose.sh` 脚本，使用方法与 2.1 节类似：
 
 ```bash
-docker compose --project-directory . \
-  -f my-dev-env/docker/docker-compose.yml \
-  -f docker-compose.yml \
-  up -d dl-dev-cuda11.8-cudnn8-pytorch1.13.1-ubuntu22.04
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+COMPOSE_DIR="$SCRIPT_DIR/my-dev-env/docker"
+
+# 设置环境变量，供 docker-compose.yml 使用
+export PROJECT_ROOT="$SCRIPT_DIR"
+docker compose -f "$COMPOSE_DIR/docker-compose.yml" -f "$SCRIPT_DIR/docker-compose.yml" "$@"
 ```
 
 ## 3 添加新镜像
@@ -124,7 +126,7 @@ services:
 services:
   dl-dev-cuda12.1-cudnn8-pytorch2.0-ubuntu22.04:
     volumes:
-      - ./samples:/workspace/samples
+      - ${PROJECT_ROOT}/samples:/workspace/samples
     working_dir: /workspace/samples
 ```
 
@@ -160,7 +162,7 @@ services:
 services:
   dl-dev-cuda12.1-cudnn8-pytorch2.0-ubuntu22.04:
     volumes:
-      - ./samples:/workspace/samples
+      - ${PROJECT_ROOT}/samples:/workspace/samples
     working_dir: /workspace/samples
 ```
 
