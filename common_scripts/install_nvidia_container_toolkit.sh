@@ -23,7 +23,4 @@ sudo nvidia-ctk runtime configure --runtime=docker
 # restart docker service
 sudo systemctl restart docker
 
-# test nvidia container toolkit (use sudo since group change requires new session)
-sudo docker run --rm --gpus all nvidia/cuda:12.5.0-base-ubuntu22.04 nvidia-smi
-
 echo -e "Successfully installed NVIDIA Container Toolkit.\n"
