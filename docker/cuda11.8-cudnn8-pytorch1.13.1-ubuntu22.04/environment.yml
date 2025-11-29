@@ -1,0 +1,13 @@
+name: py3.10-torch1.13.1
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.10
+  - numpy<2.0 # PyTorch 1.13.1 需要 NumPy 1.x
+  - matplotlib
+  - opencv
+  - tqdm
+  - pip
+  - pip:
+    - -r /tmp/requirements.txt

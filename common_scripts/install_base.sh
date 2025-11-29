@@ -1,0 +1,37 @@
+#!/bin/bash
+
+set -e
+
+echo -e "\nInstalling base packages..."
+
+ubuntu_version=$(cat /etc/os-release | grep "VERSION_ID" | sed 's/\(VERSION_ID=\|"\|\.\)//g')
+
+# replace sources with aliyun
+echo "Ubuntu $ubuntu_version detected, replacing sources with aliyun..."
+if [ "$ubuntu_version" == "2404" ]; then
+    sudo cp /etc/apt/sources.list.d/ubuntu.sources /etc/apt/sources.list.d/ubuntu.sources.bak.$(date +%Y%m%d%H%M%S)
+    sudo tee /etc/apt/sources.list.d/ubuntu.sources >/dev/null 2>&1 <<-'EOF'
+Types: deb
+URIs: http://mirrors.aliyun.com/ubuntu/
+Suites: noble noble-updates
+Components: main restricted universe multiverse
+
+Types: deb
+URIs: http://mirrors.aliyun.com/ubuntu/
+Suites: noble-backports
+Components: main restricted universe multiverse
+
+Types: deb
+URIs: http://mirrors.aliyun.com/ubuntu/
+Suites: noble-security
+Components: main restricted universe multiverse
+EOF
+else
+    sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak.$(date +%Y%m%d%H%M%S)
+fi
+
+echo "Updating and upgrading packages..."
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y wget curl git vim build-essential
+
+echo -e "Successfully installed base packages.\n"

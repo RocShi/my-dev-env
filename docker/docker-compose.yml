@@ -1,0 +1,88 @@
+# ==============================================================================
+# Docker Compose 基础配置文件
+# ==============================================================================
+# 说明：
+#   1. 分层配置锚点：base（通用）、gpu（GPU）、dev-volumes（开发挂载）
+#   2. 支持多种开发环境：深度学习（GPU）、C++、Python 等
+#   3. 在项目根目录的 docker-compose.yml 中覆盖特定配置（如挂载目录）
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 配置锚点定义
+# ------------------------------------------------------------------------------
+# 基础配置：所有开发容器的通用配置
+x-base-config: &base-config
+  tty: true
+  stdin_open: true
+  # 默认启动命令
+  command: /bin/bash
+
+# GPU 配置：需要 NVIDIA GPU 的服务
+x-gpu-config: &gpu-config
+  deploy:
+    resources:
+      reservations:
+        devices:
+          - driver: nvidia
+            count: all
+            capabilities: [ gpu ]
+  # NVIDIA 运行时环境变量
+  environment:
+    - NVIDIA_VISIBLE_DEVICES=all
+    - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+
+# 开发挂载配置：默认挂载整个主机根目录
+x-dev-volumes: &dev-volumes
+  volumes:
+    - /:/host
+  working_dir: /host
+
+# 深度学习配置：GPU + 大共享内存
+x-dl-config: &dl-config
+  shm_size: "8gb"
+
+# ------------------------------------------------------------------------------
+# 服务定义
+# ------------------------------------------------------------------------------
+services:
+  # ==========================================================================
+  # 深度学习开发环境（GPU + PyTorch/TensorFlow）
+  # ==========================================================================
+  # CUDA 11.8 + cuDNN 8 + PyTorch 1.13.1
+  dl-dev-cuda11.8-cudnn8-pytorch1.13.1-ubuntu22.04:
+    <<: [ *base-config, *gpu-config, *dev-volumes, *dl-config ]
+    build:
+      context: cuda11.8-cudnn8-pytorch1.13.1-ubuntu22.04
+      dockerfile: Dockerfile
+    image: dev-env:cuda11.8-cudnn8-pytorch1.13.1-ubuntu22.04
+    container_name: dl_dev_cuda11.8
+  # 示例：CUDA 12.1 + PyTorch 2.0
+  # dl-dev-cuda12.1:
+  #   <<: [*base-config, *gpu-config, *dev-volumes, *dl-config]
+  #   build:
+  #     context: cuda12.1-cudnn8-pytorch2.0-ubuntu22.04
+  #     dockerfile: Dockerfile
+  #   image: dev-env:cuda12.1-cudnn8-pytorch2.0-ubuntu22.04
+  #   container_name: dl_dev_cuda12.1
+
+  # ==========================================================================
+  # 通用开发环境（不需要 GPU）
+  # ==========================================================================
+  # 示例：C++ 开发环境
+  # cpp-dev:
+  #   <<: [*base-config, *dev-volumes]
+  #   build:
+  #     context: cpp-dev-ubuntu22.04
+  #     dockerfile: Dockerfile
+  #   image: dev-env:cpp-dev-ubuntu22.04
+  #   container_name: cpp_dev
+
+  # 示例：Python 通用开发环境（无 GPU）
+  # python-dev:
+  #   <<: [*base-config, *dev-volumes]
+  #   build:
+  #     context: python3.11-ubuntu22.04
+  #     dockerfile: Dockerfile
+  #   image: dev-env:python3.11-ubuntu22.04
+  #   container_name: python_dev
+  #   shm_size: '2gb'  # 可选：较小的共享内存
