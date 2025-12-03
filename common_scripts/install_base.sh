@@ -2,6 +2,13 @@
 
 set -e
 
+# make sudo optional for root users (e.g. in Docker containers)
+if [ "$(id -u)" -eq 0 ]; then
+    function sudo() {
+        "$@"
+    }
+fi
+
 echo -e "\nInstalling base packages..."
 
 ubuntu_version=$(cat /etc/os-release | grep "VERSION_ID" | sed 's/\(VERSION_ID=\|"\|\.\)//g')
