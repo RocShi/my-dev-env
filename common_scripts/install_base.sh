@@ -39,6 +39,11 @@ fi
 
 echo "Updating and upgrading packages..."
 sudo apt update && sudo apt upgrade -y
-sudo apt install -y wget curl git vim build-essential
+# Install locales to fix character encoding issues (e.g. zsh/autosuggestions glitches)
+sudo apt install -y wget curl git vim build-essential locales
+
+echo "Generating en_US.UTF-8 locale..."
+sudo locale-gen en_US.UTF-8
+sudo update-locale LANG=en_US.UTF-8
 
 echo -e "Successfully installed base packages.\n"
