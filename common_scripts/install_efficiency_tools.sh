@@ -21,6 +21,7 @@ source install_zoxide.sh $USE_LOCAL_BIN_FILES
 source install_fzf.sh $USE_LOCAL_BIN_FILES
 source install_fish_shell.sh $USE_LOCAL_BIN_FILES
 source install_zsh.sh
+source install_starship.sh $USE_LOCAL_BIN_FILES
 source change_shell.sh
 
 echo -e "Successfully installed efficiency tools.\n"

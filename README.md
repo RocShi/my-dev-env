@@ -24,6 +24,7 @@
   - [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)：命令输入智能提醒
   - [zsh-completions](https://github.com/zsh-users/zsh-completions)：zsh 补全增强
   - [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)：语法高亮，错误命令红色提醒
+- [starship](https://github.com/starship/starship)：轻量、迅速、跨平台、高度可定制化的 shell prompt 工具，美化终端显示，bash / fish / zsh 均已配置，可通过修改 `my-dev-env/config/starship.toml` 进行自定义（安装目录为 `~/.config/starship.toml`）
 
 **Tips**
 
@@ -47,9 +48,9 @@
 git clone --depth=1 --recurse-submodules --shallow-submodules https://github.com/RocShi/my-dev-env.git
 ```
 
-### 2 主机环境配置
+### 2.2 主机环境配置
 
-#### 2.1 WSL2 配置
+#### 2.2.1 WSL2 配置
 
 首先需要在 Windows 环境中下载并安装 [NVIDIA App](https://www.nvidia.cn/software/nvidia-app/)，并通过该软件直接安装 NVIDIA 驱动；然后在 WSL2 终端中执行下述命令完成基础开发环境的配置：
 
@@ -57,11 +58,11 @@ git clone --depth=1 --recurse-submodules --shallow-submodules https://github.com
 cd my-dev-env/host && chmod +x setup_wsl2.sh && ./setup_wsl2.sh
 ```
 
-#### 2.2 Linux 配置 (TODO)
+#### 2.2.2 Linux 配置 (TODO)
 
 需要在 Linux 环境中安装 NVIDIA 驱动，其它配置步骤与 WSL2 类似，暂未实现。
 
-## 2 Docker 环境配置
+### 2.3 Docker 环境配置
 
 上述步骤已完成 docker 及 NVIDIA Container Toolkit 的安装，此处直接构建并使用指定的 docker 镜像即可：
 

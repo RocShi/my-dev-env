@@ -1,0 +1,56 @@
+# Disable empty line at the start
+add_newline = false
+
+# Line 1: User@Host Path Git
+# Line 2: Arrow
+format = """
+$username$hostname\
+$directory\
+$git_branch\
+$git_status\
+$line_break\
+$character"""
+
+# ------------------------------------------------------------------------------
+# 1. Username @ Hostname
+# ------------------------------------------------------------------------------
+[username]
+style_user = "green bold"
+style_root = "green bold"
+format = "[$user]($style)@"
+show_always = true
+
+[hostname]
+ssh_only = false
+format = "[$hostname](white) "
+disabled = false
+
+# ------------------------------------------------------------------------------
+# 2. Directory (Clue, No truncation)
+# ------------------------------------------------------------------------------
+[directory]
+style = "blue bold"
+read_only = " 🔒"
+truncation_length = 0       # 0 means never truncate path
+truncate_to_repo = false    # Show full path even inside git repos
+format = "[$path]($style) "
+
+# ------------------------------------------------------------------------------
+# 3. Git (Purple branch name)
+# ------------------------------------------------------------------------------
+[git_branch]
+symbol = ""
+style = "purple bold"
+format = "<[$symbol$branch]($style)> "
+
+[git_status]
+style = "red bold"
+format = "([$all_status$ahead_behind]($style))"
+
+# ------------------------------------------------------------------------------
+# 4. Prompt Character (❯)
+# ------------------------------------------------------------------------------
+[character]
+success_symbol = "[❯](green bold)"
+error_symbol = "[❯](red bold)"
+vimcmd_symbol = "[❮](green bold)"
