@@ -36,4 +36,9 @@ cp -r $CONFIG_SRC/plugins/* $PLUGIN_DEST/
 cp $CONFIG_SRC/*.zsh $HOME/.config/zsh/
 cp $CONFIG_SRC/.zshrc $HOME/
 
+# 3. load bash_history into zsh_history
+if [ -f $HOME/.bash_history ]; then
+    cat $HOME/.bash_history | tr -d '\r' | awk '{print ": 0:0;"$0}' >> $HOME/.zsh_history
+fi
+
 echo -e "Successfully installed zsh.\n"
