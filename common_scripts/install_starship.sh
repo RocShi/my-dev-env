@@ -31,7 +31,7 @@ mkdir -p ~/.config
 cp ../config/starship.toml ~/.config/
 
 # configure starship in bashrc if not exist
-if ! grep -Fq "eval \"$(starship init bash)\"" ~/.bashrc; then
+if ! grep -Fq "starship init bash" ~/.bashrc; then
     cat <<'EOF' >>~/.bashrc
 
 # configure starship
