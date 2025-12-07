@@ -48,32 +48,25 @@ autoload -Uz compinit
 compinit -u
 
 # --- Improved Completion Experience (Fish-like) ---
-# Case insensitive completion (abc -> Abc) and partial word completion (c/z/p -> config/zsh/plugins)
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-# Colorful completion list
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-# Menu selection (use arrows to select)
 zstyle ':completion:*' menu select
-# Group results by category
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':completion:*:warnings' format 'No matches for: %d'
-# Better process list for 'kill'
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
 zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
-# Auto-description and verbose
 zstyle ':completion:*' verbose true
 zstyle ':completion:*' use-compctl false
-# Auto-expand '..' to '../..'
 zstyle ':completion:*' special-dirs true
-# Approximate matching (typo correction)
-# Allows 1 error for every 3 characters typed
 zstyle ':completion:*' completer _complete _match _approximate
 zstyle ':completion:*:match:*' original only
 zstyle ':completion:*:approximate:*' max-errors 1 numeric
-# Cache completion (speeds up git, apt, etc.)
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "$HOME/.zcache"
+zstyle ':completion:*:git-checkout:*' sort false
+zstyle ':completion:*:git-fetch:*' fetch-all-branches false
+zstyle ':completion:*:git-pull:*' fetch-all-branches false
 
 # --- 5. Plugins ---
 PLUGIN_DIR="$HOME/.config/zsh/plugins"
@@ -132,8 +125,14 @@ bindkey '^[[B' down-line-or-search
 bindkey '^[[1;5D' backward-word
 bindkey '^[[1;5C' forward-word
 
-# --- 9. fzf ---
+# --- 9. custom ---
+source ~/.config/zsh/custom.zsh
+
+# --- 10. fzf ---
 source ~/.config/zsh/fzf.zsh
 
-# --- 10. zoxide ---
+# --- 11. zoxide ---
 source ~/.config/zsh/zoxide.zsh
+
+# --- 12. git_fast ---
+source ~/.config/zsh/git_fast.zsh
