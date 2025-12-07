@@ -33,12 +33,18 @@ echo "Deploying plugins and config files..."
 PLUGIN_DEST=$HOME/.config/zsh/plugins
 mkdir -p $PLUGIN_DEST
 cp -r $CONFIG_SRC/plugins/* $PLUGIN_DEST/
+if [ -f $HOME/.config/zsh/custom.zsh ]; then
+    mv $HOME/.config/zsh/custom.zsh $HOME/.config/zsh/custom.zsh.bak.$(date +%Y%m%d%H%M%S)
+fi
 cp $CONFIG_SRC/*.zsh $HOME/.config/zsh/
+if [ -f $HOME/.zshrc ]; then
+    mv $HOME/.zshrc $HOME/.zshrc.bak.$(date +%Y%m%d%H%M%S)
+fi
 cp $CONFIG_SRC/.zshrc $HOME/
 
 # 3. load bash_history into zsh_history
 if [ -f $HOME/.bash_history ]; then
-    cat $HOME/.bash_history | tr -d '\r' | awk '{print ": 0:0;"$0}' >> $HOME/.zsh_history
+    cat $HOME/.bash_history | tr -d '\r' | awk '{print ": 0:0;"$0}' >>$HOME/.zsh_history
 fi
 
 echo -e "Successfully installed zsh.\n"

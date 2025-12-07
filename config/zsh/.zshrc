@@ -88,15 +88,33 @@ if [ -f "$PLUGIN_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; the
     source "$PLUGIN_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fi
 
-# --- 6. Prompt (Starship) ---
-# Check if starship is installed
-if command -v starship >/dev/null 2>&1; then
-    eval "$(starship init zsh)"
-else
-    # Fallback prompt if starship is missing
-    # User@Host Path % 
-    PROMPT='%F{green}%n%f@%F{magenta}%m%f %F{blue}%~%f %# '
-fi
+# --- 6. Prompt ---
+_git_prompt_info() {
+    # Suppress all errors to prevent prompt corruption
+    (
+        setopt localoptions
+        setopt errreturn 2>/dev/null || true  # Ignore if errreturn not available
+        
+        # Check if we're in a git repository
+        local git_dir=$(git rev-parse --git-dir 2>/dev/null)
+        [[ -z "$git_dir" ]] && return 0
+        
+        # Try to get branch name - works in both regular repos and submodules
+        local branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+        
+        # If not on a branch (detached HEAD), show commit hash
+        if [[ -z "$branch" ]]; then
+            branch=$(git rev-parse --short HEAD 2>/dev/null)
+            [[ -n "$branch" ]] && branch="$branch"
+        fi
+        
+        # Output branch info if available
+        [[ -n "$branch" ]] && echo "%F{#AE81FF}%B($branch)%b%f"
+    ) 2>/dev/null || true
+}
+setopt PROMPT_SUBST
+PROMPT='%F{#A6E22E}%B%n%b%f@%F{#E3E3DD}%B%m%b%f %F{#819AFF}%B%~%b%f $(_git_prompt_info)
+%F{#A6E22E}%B❯%b%f '
 
 # --- 7. Aliases ---
 alias ll='ls -alF'
