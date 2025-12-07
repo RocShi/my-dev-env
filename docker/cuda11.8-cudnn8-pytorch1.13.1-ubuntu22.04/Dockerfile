@@ -10,8 +10,14 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list && \
     sed -i 's/security.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list && \
     apt-get update && \
-    apt-get install -y --no-install-recommends wget curl vim git libgl1-mesa-glx libglib2.0-0 ca-certificates && \
+    apt-get install -y --no-install-recommends wget curl vim git libgl1-mesa-glx libglib2.0-0 ca-certificates locales && \
     rm -rf /var/lib/apt/lists/*
+
+# 1.1 生成 en_US.UTF-8 locale (解决 zsh 乱码和 autosuggestions 重影问题)
+RUN locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
 
 # 2. 安装 Miniconda
 ENV CONDA_DIR=/opt/conda
