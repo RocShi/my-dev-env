@@ -41,11 +41,24 @@ if [ -d "$HOME/.config/zsh/plugins/zsh-completions/src" ]; then
     fpath=($HOME/.config/zsh/plugins/zsh-completions/src $fpath)
 fi
 
+# Add conda-zsh-completion to fpath BEFORE compinit
+# Important: Only add to fpath, do NOT source the _conda file directly
+# The completion system will automatically load it when needed
+if [ -d "$HOME/.config/zsh/plugins/conda-zsh-completion" ]; then
+    fpath=("$HOME/.config/zsh/plugins/conda-zsh-completion" $fpath)
+fi
+
 # Initialize completion system
 autoload -Uz compinit
 # -u: insecure (ignore permissions check), useful for containers/shared envs
 # -C: check cache
 compinit -u
+
+# --- 4.1. Conda initialization (for completion support) ---
+# Initialize conda if available (needed for conda command completion)
+if [ -f "/opt/conda/etc/profile.d/conda.sh" ]; then
+    source "/opt/conda/etc/profile.d/conda.sh"
+fi
 
 # --- Improved Completion Experience (Fish-like) ---
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'

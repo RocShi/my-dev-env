@@ -19,10 +19,11 @@
 - [zoxide](https://github.com/ajeetdsouza/zoxide)：目录快速跳转工具，bash / fish / zsh 均已配置，通过 `z` 或 `zz` 命令快速唤起
 - [fzf](https://github.com/junegunn/fzf)：命令行交互式过滤工具，典型应用如历史命令快速查找，bash / fish / zsh 均已配置，通过 `CTRL + R` 快速唤起
 - [fish shell](https://github.com/fish-shell/fish-shell)：开箱即用的现代化交互式 shell，包含语法高亮、命令智能提示、TAB 补全等诸多特性，在易用性上显著优于其它 shell，但与 POSIX 不兼容导致在使用某些软件（如 ROS、Conda）时可能有兼容性问题，一般也不难解决
-- [z-shell](https://www.zsh.org)：zsh，强大的交互式 shell，兼容 POSIX，依赖丰富的社区插件扩展其能力。本项目不依赖 [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh) 框架对 zsh 进行配置（过于臃肿），直接通过下面 4 个插件增强 zsh（体验接近 fish 且兼容性更强）：
+- [z-shell](https://www.zsh.org)：zsh，强大的交互式 shell，兼容 POSIX，依赖丰富的社区插件扩展其能力。本项目不依赖 [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh) 框架对 zsh 进行配置（过于臃肿），直接通过下面几个插件增强 zsh（体验接近 fish 且兼容性更强）：
   - [fzf-tab](https://github.com/Aloxaf/fzf-tab)：基于 fzf 的 zsh tab 补全增强
-  - [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)：命令输入智能提醒
-  - [zsh-completions](https://github.com/zsh-users/zsh-completions)：zsh 补全增强
+  - [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)：命令输入智能提示
+  - [zsh-completions](https://github.com/zsh-users/zsh-completions)：zsh 命令补全增强
+  - [conda-zsh-completion](https://github.com/conda-incubator/conda-zsh-completion)：zsh conda 命令补全
   - [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)：语法高亮，错误命令红色提醒
 
 **Tips**

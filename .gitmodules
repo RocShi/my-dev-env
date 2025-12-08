@@ -10,3 +10,6 @@
 [submodule "config/zsh/plugins/fzf-tab"]
 	path = config/zsh/plugins/fzf-tab
 	url = https://github.com/Aloxaf/fzf-tab
+[submodule "config/zsh/plugins/conda-zsh-completion"]
+	path = config/zsh/plugins/conda-zsh-completion
+	url = https://github.com/conda-incubator/conda-zsh-completion.git
