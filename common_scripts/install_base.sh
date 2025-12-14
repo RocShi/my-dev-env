@@ -40,7 +40,7 @@ fi
 echo "Updating and upgrading packages..."
 sudo apt update && sudo apt upgrade -y
 # Install locales to fix character encoding issues (e.g. zsh/autosuggestions glitches)
-sudo apt install -y wget curl git vim build-essential locales
+sudo apt install -y wget curl git vim unzip build-essential locales clang-format
 
 echo "Generating en_US.UTF-8 locale..."
 sudo locale-gen en_US.UTF-8
