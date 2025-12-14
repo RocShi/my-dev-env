@@ -23,6 +23,6 @@ fi
 if [ -f /etc/shells ] && ! grep -qx "$SHELL_BIN" /etc/shells 2>/dev/null; then
     echo "$SHELL_BIN" | sudo tee -a /etc/shells >/dev/null
 fi
-chsh -s $SHELL_BIN $(whoami)
+sudo chsh -s $SHELL_BIN $(whoami)
 
 echo -e "Successfully changed shell to $SHELL_TYPE, need to restart system to take effect.\n"
