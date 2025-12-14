@@ -56,6 +56,14 @@ services:
       dockerfile: Dockerfile
     image: dev-env:cuda11.8-cudnn8-pytorch1.13.1-ubuntu22.04
     container_name: dl_dev_cuda11.8
+  # CUDA 12.5 + cuDNN 9 + TensorRT 8.6.3
+  dl-dev-cuda12.5-cudnn9-tensorrt8.6.3-ubuntu22.04:
+    <<: [ *base-config, *gpu-config, *dev-volumes, *dl-config ]
+    build:
+      context: cuda12.5-cudnn9-tensorrt8.6.3-ubuntu22.04
+      dockerfile: Dockerfile
+    image: dev-env:cuda12.5-cudnn9-tensorrt8.6.3-ubuntu22.04
+    container_name: dl_dev_trt8.6.3
   # 示例：CUDA 12.1 + PyTorch 2.0
   # dl-dev-cuda12.1:
   #   <<: [*base-config, *gpu-config, *dev-volumes, *dl-config]
